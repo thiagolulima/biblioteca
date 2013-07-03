@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../resources/template/Template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+         <a href="../logout">Sair do sistema</a>
+        <h:form id="cadastroLivro">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Digite Titulo:"/>
+                <p:inputText value="#{beanLivro.livro.titulo}"/>
+               
+                <h:commandButton action="#{beanLivro.persist()}"  value="Salvar"/>
+            </h:panelGrid>
+        </h:form>
+        <hr/>
+
+        <p:dataTable value="#{beanLivro.findAll()}" var="livro">
+            <p:column headerText="id"> 
+                <h:outputText value="#{livro.id}"/>
+            </p:column>
+            <p:column headerText="titulo"> 
+                <h:outputText value="#{livro.titulo}"/>
+            </p:column>
+        </p:dataTable>
+
+    </ui:define>
+
+</ui:composition>

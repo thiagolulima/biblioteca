@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../resources/template/Template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+        <h:form id="cadastroEmprestimo">
+              <a href="../logout">Sair do sistema</a>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Selecione o Cliente:"/>
+                <h:selectOneMenu value="#{beanEmprestimo.emprestimo.cliente}" converter="#{conCliente}">
+                    <f:selectItems value="#{beanCliente.findAll()}"
+                                   var="cliente"
+                                   itemValue="#{cliente}"
+                                   itemLabel="#{cliente.nome}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="Selecione o Livro :"/>
+                <h:selectOneMenu value="#{beanEmprestimo.emprestimo.livro}" converter="#{conLivro}">
+                    <f:selectItems value="#{beanLivro.findAll()}"
+                                   var="livro"
+                                   itemValue="#{livro}"
+                                   itemLabel="#{livro.titulo}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="Data Inicio"/>
+                <h:inputText value="#{beanEmprestimo.emprestimo.dataInicio}">
+                    <f:convertDateTime type="date" />
+                </h:inputText>
+                <h:outputLabel value="Data Fim"/>
+                <h:inputText value="#{beanEmprestimo.emprestimo.dataFim}">
+                    <f:convertDateTime type="date" />
+                </h:inputText>
+                <h:commandButton action="#{beanEmprestimo.persist()}"  value="Salvar"/>
+            </h:panelGrid>
+        </h:form>
+        <hr/>
+
+        <p:dataTable value="#{beanEmprestimo.findAll()}" var="emp">
+            <p:column headerText="Cliente">
+                <h:outputText value="#{emp.cliente.nome}" />
+            </p:column>
+
+            <p:column headerText="Livro">
+                <h:outputText value="#{emp.livro.titulo}" />
+            </p:column>
+
+            <p:column headerText="Data Início">
+                <h:outputText value="#{emp.dataInicio}">
+                    <f:convertDateTime type="date" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Data Fim">
+                <h:outputText value="#{emp.dataFim}">
+                    <f:convertDateTime type="date" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Data Devolução">
+                <h:outputText value="#{emp.dataDevolucao}">
+                    <f:convertDateTime type="date"/>
+                </h:outputText>
+            </p:column>
+
+        </p:dataTable>
+
+        <h:outputText value="Editar empréstimo" /><br/>        
+        <h:form id="form">  
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Empréstimo:" />
+                <h:selectOneMenu value="#{beanEmprestimo.emprestimo}" converter="#{conEmprestimo}">
+                    <f:selectItems value="#{beanEmprestimo.findAll()}"
+                                   var="emp"
+                                   itemValue="#{emp}"
+                                   itemLabel="#{emp}" />
+                </h:selectOneMenu>
+                <h:outputLabel value="Data de devolução:" />
+                <h:inputText value="#{beanEmprestimo.emprestimo.dataDevolucao}">
+                    <f:convertDateTime type="date" />
+                </h:inputText>
+                <h:commandButton action="#{beanEmprestimo.updateEmprestimo()}" value="editar" />
+            </h:panelGrid>
+        </h:form>  
+
+    </ui:define>
+</ui:composition>
